@@ -1,20 +1,8 @@
 #!/bin/sh
-#`
-# *** For DSM v7.1.x ***
-#
-# How to use this script:
-#  1. Get your 3 PEM files ready to copy over from your local machine/update server (privkey.pem, fullchain.pem, cert.pem)
-#     and put into a directory (this will be $CERT_DIRECTORY).
-#  2. Ensure you have a user setup on synology that has ssh access (and ssh access is setup).
-#     This user will need to be able to sudo as root (i.e. add this line to sudoers, <USER> is the user you create):
-#       <USER> ALL=(ALL) NOPASSWD: /var/services/homes/<USER>/replace_certs.sh
-#  3. Call this script as follows:
-#     sudo scp ${CERT_DIRECTORY}/{privkey,fullchain,cert}.pem $USER@$SYNOLOGY_SERVER:/tmp/ \
-#     && sudo scp replace_synology_ssl_certs.sh $USER@$SYNOLOGY_SERVER:~/ \
-#     && ssh $USER@$SYNOLOGY_SERVER 'sudo ./replace_synology_ssl_certs.sh'
-#
-# Script start.
+
+# Script start. Запускаем продление сертификата
 docker-compose  -f /volume2/docker/certbot/cloudflare/docker-compose.yml up
+# Копируем сертификаты и применяем в DSM 7.1*
 
 REVERSE_PROXY=/usr/syno/etc/certificate/ReverseProxy
 FQDN_DIR=/usr/syno/etc/certificate/system/FQDN
