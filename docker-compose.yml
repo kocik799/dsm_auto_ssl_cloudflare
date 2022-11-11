@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  letsencrypt-cloudflare:
+    image: certbot/dns-cloudflare
+
+    # Проверка
+    command: certonly --non-interactive --dns-cloudflare --dns-cloudflare-credentials /opt/cloudflare/cloud.ini --dns-cloudflare-propagation-seconds 60 --agree-tos -d mynas.ru -d *.mynas.ru --email email@luboi.ru --server https://acme-v02.api.letsencrypt.org/directory --dry-run
+
+    # Получение сертификата
+    # command: certonly --non-interactive --dns-cloudflare --dns-cloudflare-credentials /opt/cloudflare/cloud.ini --dns-cloudflare-propagation-seconds 60 --agree-tos -d mynas.ru -d *.mynas.ru --email email@luboi.ru --server https://acme-v02.api.letsencrypt.org/directory
+
+    # Продление сертификата
+    # command: renew --non-interactive --no-self-upgrade --dns-cloudflare --dns-cloudflare-credentials /opt/cloudflare/cloud.ini --dns-cloudflare-propagation-seconds 60 --agree-tos --server https://acme-v02.api.letsencrypt.org/directory
+
+    volumes:
+      - /volume2/docker/certbot/cloudflare:/opt/cloudflare
+      - /volume2/docker/certbot/cloudflare/cert:/etc/letsencrypt
+      - /volume2/docker/certbot/cloudflare/log:/var/log/letsencrypt
